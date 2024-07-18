@@ -2,21 +2,18 @@
 
 const path = require('path');
 
-const pathOne = path.join(__dirname, 'src/components/**/*.{js,jsx,ts,tsx}')
-const pathTwo = path.join(__dirname, '../../apps/**/app/*.{js,jsx,ts,tsx}')
+const pathOne = path.join(__dirname, './src/components/**/*.{js,jsx,ts,tsx}')
+const pathTwo = path.join(__dirname, '../../apps/**/app/*.{js,jsx,ts,tsx}') //"apps/customer-app/app/page.tsx"
 const pathThree = path.join(__dirname, '../../apps/**/app/**/*.{js,jsx,ts,tsx}')
 const pathFour = path.join(__dirname, '../../apps/**/app/**/**/*.{js,jsx,ts,tsx}')
 
-console.log('pathOne', pathOne)
-console.log('pathTwo', pathTwo)
-console.log('pathThree', pathThree)
-console.log('pathFour', pathFour)
 module.exports = {
   darkMode: ["class"],
   content: [
-    '../../apps/**/app/*.{tsx,ts}',
-    '../../apps/**/app/**/*.{tsx,ts}',
-    './src/**/*.{ts,tsx}',
+    pathOne,
+    pathTwo,
+    pathThree,
+    pathFour
   ],
   prefix: "",
   theme: {
