@@ -3,12 +3,16 @@ const path = require('path');
 const { fontFamily } = require("tailwindcss/defaultTheme")
 const pathOne = path.join(__dirname, "./app/**/*.{js,ts,jsx,tsx,mdx}");
 const pathtwo = path.join(__dirname, "./app/*.{js,ts,jsx,tsx,mdx}");
+const pathfour = path.join(__dirname, "./components/*.{js,ts,jsx,tsx,mdx}");
+const pathfive = path.join(__dirname, "./components/**/*.{js,ts,jsx,tsx,mdx}");
 const paththree = path.join(__dirname, "../../packages/ui/src/components/ui/*.{js,ts,jsx,tsx,mdx}");
 module.exports = {
   content: [
     pathOne,
     pathtwo,
-    paththree
+    paththree,
+    pathfour,
+    pathfive
   ],
   theme: {
     container: {
