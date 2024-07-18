@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const processPayment = async (amount: number, token: string) => {
     try {
-        await db.$transaction(async tx => {
+        await db.$transaction(async (tx: any) => {
             // check the token;
             const bankAmountToBeAdded = await tx.bankToken.findFirst({
                 where: {
@@ -67,7 +67,7 @@ const sendWebhook = async (token: string) => {
 };
 const cancelPayment = async (token: string) => {
     try {
-        await db.$transaction(async tx => {
+        await db.$transaction(async (tx: any) => {
             const bankAmountToBeAdded = await tx.bankToken.findFirst({
                 where: {
                     token: token,
