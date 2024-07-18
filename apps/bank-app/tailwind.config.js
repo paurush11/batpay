@@ -1,21 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-
 const path = require('path');
-
-const pathOne = path.join(__dirname, './src/components/**/*.{js,jsx,ts,tsx}')
-const pathTwo = path.join(__dirname, '../../apps/**/app/*.{js,jsx,ts,tsx}') //"apps/customer-app/app/page.tsx"
-const pathThree = path.join(__dirname, '../../apps/**/app/**/*.{js,jsx,ts,tsx}')
-const pathFour = path.join(__dirname, '../../apps/**/app/**/**/*.{js,jsx,ts,tsx}')
-
+const { fontFamily } = require("tailwindcss/defaultTheme")
+const pathOne = path.join(__dirname, "./app/**/*.{js,ts,jsx,tsx,mdx}");
+const pathtwo = path.join(__dirname, "./app/*.{js,ts,jsx,tsx,mdx}");
+const paththree = path.join(__dirname, "../../packages/ui/src/components/ui/*.{js,ts,jsx,tsx,mdx}");
 module.exports = {
-  darkMode: ["class"],
   content: [
     pathOne,
-    pathTwo,
-    pathThree,
-    pathFour
+    pathtwo,
+    paththree
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -61,9 +55,12 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+        lg: `var(--radius)`,
+        md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {
@@ -83,3 +80,4 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 }
+

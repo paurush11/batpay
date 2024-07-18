@@ -19,3 +19,5 @@ export * from "./ui/drawer";
 export * from "./ui/select";
 export * from "./ui/gradual-spacing";
 export * from "./ui/accordion";
+export * from "./ui/chart";
+export * from "./ui/hover-card";
