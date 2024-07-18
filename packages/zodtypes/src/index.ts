@@ -34,10 +34,10 @@ const P2PTransferFormSchema = z.object({
     message: "Either email or phone must be provided",
 });
 
-
+export type TProvider = "HDFC" | "CHASE" | "BANK_OF_AMERICA" | "ICICI" | "GOLDMAN_SACHS"
 export {
     LoginFormSchema,
     SignUpFormSchema,
     RAMPTransactionFormSchema,
     P2PTransferFormSchema
-}
+};
