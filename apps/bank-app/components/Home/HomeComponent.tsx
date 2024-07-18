@@ -2,7 +2,7 @@
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, GradualSpacing, toast } from '@repo/ui';
 import { cn } from '@repo/ui/lib/utils';
 import { useEffect, useState } from 'react';
-import { cancelPayment, processPayment } from '../../actions/processPayment';
+import { cancelPayment, processPayment } from '../../app/actions/processPayment';
 
 
 const HomeComponent = ({
