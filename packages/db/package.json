@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
     "@prisma/client": "^5.17.0"
   },
