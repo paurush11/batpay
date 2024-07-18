@@ -1,23 +1,21 @@
-import {
-  Button, HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@repo/ui";
+import { getServerSession } from "next-auth";
+import LandingPage from "../components/Landing/LandingPage";
+import { authConfig } from "../lib/authConfig";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  console.log(process.env.NEXTAUTH_URL);
+export default async function Home() {
+  const session = await getServerSession(authConfig);
+  if (session?.user) {
+    redirect("/home");
+  }
+
   return (
-    <div className="flex p-10 bg-primary-foreground">
-      <HoverCard>
-        <HoverCardTrigger>
-          <Button variant={"themeYellow"}>Hi</Button>
-        </HoverCardTrigger>
-        <HoverCardContent className="bg-destructive">
-          The React Framework – created and maintained by @vercel.
-        </HoverCardContent>
-      </HoverCard>
-
-
+    <div className={" bg-primary-foreground pt-20"} style={{
+    }}>
+      <LandingPage />
     </div>
   );
 }
+
+
+
