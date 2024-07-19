@@ -4,11 +4,7 @@ import { authConfig } from '../../lib/authConfig';
 import { redirect } from 'next/navigation';
 import SignInComponent from './SignInComponent';
 
-interface pageProps {
-
-}
-
-const page: React.FC<pageProps> = async ({ }) => {
+const page: React.FC = async () => {
     const session = await getServerSession(authConfig);
     if (session?.user) {
         redirect("/");

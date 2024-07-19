@@ -58,7 +58,7 @@ const addBalance = async (amount: number, userId: string) => {
                 data: newBalance.amount
             }
         }
-        const updatedBalance = await db.balance.updateMany({
+        await db.balance.updateMany({
             where: {
                 userId: userId,
             },

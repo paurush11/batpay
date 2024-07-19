@@ -2,7 +2,7 @@
 import { TProvider, TProviders } from '@repo/zodTypes'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { cn } from '../../lib/utils'
+import { cn } from '../../../lib/utils'
 import { Button, GradualSpacing, MagicCard } from '@repo/ui'
 
 interface ChooseProvidersProps {

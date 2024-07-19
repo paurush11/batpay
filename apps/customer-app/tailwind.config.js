@@ -1,16 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 const path = require('path');
-const pathOne = path.join(__dirname, "./app/**/*.{js,ts,jsx,tsx,mdx}");
-const pathtwo = path.join(__dirname, "./app/*.{js,ts,jsx,tsx,mdx}");
-const paththree = path.join(__dirname, "../../packages/ui/src/components/ui/*.{js,ts,jsx,tsx,mdx}");
-const pathfour = path.join(__dirname, "./components/*.{js,ts,jsx,tsx,mdx}");
-const pathfive = path.join(__dirname, "./components/**/*.{js,ts,jsx,tsx,mdx}");
+const pathAppFolder = path.join(__dirname, "./app/**/*.{js,ts,jsx,tsx,mdx}");
+const pathAppSubFolder = path.join(__dirname, "./app/**/**/*.{js,ts,jsx,tsx,mdx}");
+const pathBase = path.join(__dirname, "./app/*.{js,ts,jsx,tsx,mdx}");
+const pathPackages = path.join(__dirname, "../../packages/ui/src/components/ui/*.{js,ts,jsx,tsx,mdx}");
+const pathComponentsFolder = path.join(__dirname, "./components/*.{js,ts,jsx,tsx,mdx}");
+const pathComponentsSubFolder = path.join(__dirname, "./components/**/*.{js,ts,jsx,tsx,mdx}");
 
 module.exports = {
   content: [
-    pathOne,
-    pathtwo,
-    paththree, pathfive, pathfour
+    pathAppFolder,
+    pathAppSubFolder,
+    pathBase,
+    pathPackages,
+    pathComponentsSubFolder,
+    pathComponentsFolder
   ],
   theme: {
     container: {

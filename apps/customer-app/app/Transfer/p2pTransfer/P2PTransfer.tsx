@@ -1,5 +1,4 @@
-import React from 'react'
-import { ChooseProviders } from './ChooseProviders';
+import { ChooseProviders } from '../rampTransfer/ChooseProviders';
 
 const P2PTransfer = () => {
     return (

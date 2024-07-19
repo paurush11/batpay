@@ -2,53 +2,7 @@
 import db from "@repo/db"
 import { getServerSession } from "next-auth";
 import { authConfig } from "../../lib/authConfig";
-enum OnRampTransactionStatus {
-    PENDING = 'PENDING',
-    PROCESSING = 'PROCESSING',
-    COMPLETED = 'COMPLETED',
-    FAILED = 'FAILED',
-    CANCELLED = 'CANCELLED',
-    REFUNDED = 'REFUNDED',
-    ON_HOLD = 'ON_HOLD',
-    UNDER_REVIEW = 'UNDER_REVIEW',
-    REVERSED = 'REVERSED',
-    AUTHORIZED = 'AUTHORIZED',
-    EXPIRED = 'EXPIRED'
-}
 
-enum P2PTransactionStatus {
-    PENDING = 'PENDING',
-    PROCESSING = 'PROCESSING',
-    COMPLETED = 'COMPLETED',
-    FAILED = 'FAILED'
-}
-
-enum Providers {
-    HDFC = 'HDFC',
-    CHASE = 'CHASE',
-    BANK_OF_AMERICA = 'BANK_OF_AMERICA',
-    ICICI = 'ICICI',
-    GOLDMAN_SACHS = 'GOLDMAN_SACHS'
-}
-interface IOnRampTransactions {
-    id: string;
-    userId: string;
-    amount: number;
-    decimal: number;
-    provider: Providers;
-    token: string;
-    startTime: Date;
-    status: OnRampTransactionStatus;
-}
-interface IP2PTransaction {
-    id: string;
-    amount: number;
-    decimal: number;
-    startTime: Date;
-    fromUserId: string;
-    toUserId: string;
-    status: P2PTransactionStatus;
-}
 const fetchTransactions = async () => {
     const session = await getServerSession(authConfig)
     try {

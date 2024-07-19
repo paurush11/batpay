@@ -18,7 +18,7 @@ import {
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
-import { createOnRampTransaction } from '../actions/onRampTransaction';
+import { createOnRampTransaction } from '../../actions/onRampTransaction';
 import { RAMPTransactionFormSchema, TProvider } from "@repo/zodTypes";
 
 interface SelectAmountProps {

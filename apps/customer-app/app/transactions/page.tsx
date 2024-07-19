@@ -15,7 +15,7 @@ const page = async () => {
             </div>
         )
     } else {
-        return <NullTransactionsComponent />
+        return <NullTransactionsComponent errors={errors} />
     }
 
 }

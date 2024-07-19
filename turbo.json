@@ -8,7 +8,8 @@
     "NEXTAUTH_URL",
     "NEXTAUTH_SECRET",
     "TOKEN_REQUEST_URL",
-    "WEBHOOKURL"
+    "WEBHOOKURL",
+    "NODE_ENV"
   ],
   "globalDependencies": [
     "**/.env.*local",

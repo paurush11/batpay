@@ -1,6 +1,6 @@
 
-import RampTransactions from './RampTransactions';
-import P2PTransfer from './P2PTransfer';
+import RampTransactions from './rampTransfer/RampTransactions';
+import P2PTransfer from './p2pTransfer/P2PTransfer';
 
 const MainContent = () => {
 
