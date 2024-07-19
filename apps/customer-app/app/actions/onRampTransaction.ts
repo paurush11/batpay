@@ -52,7 +52,7 @@ const createOnRampTransaction = async (amount: number, provider: TProvider) => {
     const userId = (session!.user as any).id;
     try {
         const balance = await computeBalanceForUser(userId);
-        if (!balance || balance?.amount < amount / 100) {
+        if (!balance || !balance.unLockedBalance || balance.unLockedBalance < amount / 100) {
             throw new Error("Insufficient balance");
         }
         const { url, token } = await requestToken({ amount, provider, userId });
