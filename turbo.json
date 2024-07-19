@@ -6,7 +6,9 @@
     "GITHUB_ID",
     "GITHUB_SECRET",
     "NEXTAUTH_URL",
-    "NEXTAUTH_SECRET"
+    "NEXTAUTH_SECRET",
+    "TOKEN_REQUEST_URL",
+    "WEBHOOKURL"
   ],
   "globalDependencies": [
     "**/.env.*local",

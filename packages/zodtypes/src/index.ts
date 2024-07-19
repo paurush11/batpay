@@ -35,6 +35,8 @@ const P2PTransferFormSchema = z.object({
 });
 
 export type TProvider = "HDFC" | "CHASE" | "BANK_OF_AMERICA" | "ICICI" | "GOLDMAN_SACHS"
+export const TProviders: TProvider[] = ["HDFC", "CHASE", "BANK_OF_AMERICA", "ICICI", "GOLDMAN_SACHS"]
+
 export {
     LoginFormSchema,
     SignUpFormSchema,

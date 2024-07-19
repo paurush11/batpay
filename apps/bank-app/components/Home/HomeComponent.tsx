@@ -15,6 +15,11 @@ const HomeComponent = ({
     const [loaderClassName, setLoaderClassName] = useState("")
     const [paymentStatus, setPaymentStatus] = useState("Processing payment...")
 
+    const closeWindow = () => {
+        setTimeout(() => {
+            window.close()
+        }, 2000)
+    }
     const processPaymentResponse = async () => {
         const response = await processPayment(amount, token);
         if (response?.error) {
@@ -24,8 +29,10 @@ const HomeComponent = ({
             setDone(true)
             setPaymentStatus("Payment successful")
             setLoaderClassName("hidden")
+            closeWindow()
         }
     }
+
     const cancelPaymentResponse = async () => {
         const response = await cancelPayment(token);
         if (response?.error) {
@@ -34,6 +41,7 @@ const HomeComponent = ({
         } else {
             setDone(true)
             setPaymentStatus("Payment Cancellation successful")
+            closeWindow()
         }
     }
 

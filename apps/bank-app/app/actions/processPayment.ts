@@ -1,7 +1,7 @@
 "use server";
 import db from '@repo/db';
 import axios from 'axios';
-
+const url = process.env.NODE_ENV === 'production' ? process.env.WEBHOOKURL : "http://localhost:3003";
 const processPayment = async (amount: number, token: string) => {
     try {
         await db.$transaction(async (tx: any) => {
@@ -56,7 +56,7 @@ const processPayment = async (amount: number, token: string) => {
 }
 const sendWebhook = async (token: string) => {
     try {
-        const response = await axios.post("http://localhost:3003/webhookRAMP", {
+        const response = await axios.post(`${url}/webhookRAMP`, {
             token: token,
         })
         const data = response.data

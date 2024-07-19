@@ -1,0 +1,7 @@
+name = "batpay-webhook"
+main = "src/index.ts"
+compatibility_date = "2024-07-19"
+node_compat = true
+
+[env]
+DATABASE_URL = { secret = "DATABASE_URL" }

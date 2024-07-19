@@ -23,6 +23,3 @@ export default function Home({ searchParams }: HomeProps) {
   return <HomeComponent amount={amountInNumber} token={token} />;
 
 }
-// export default function Home() {
-//   return <HomeComponent amount={0} token={""} />;
-// }

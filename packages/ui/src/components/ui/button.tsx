@@ -21,7 +21,7 @@ const buttonVariants = cva(
         themeBlue:
           "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
         themeGreen:
-          "bg-green-500 hover:bg-green-700 text-primary-foreground  py-2 px-4 rounded-md",
+          "bg-green-500 hover:bg-green-700 text-primary-foreground  py-2 px-4 rounded",
         themeRed:
           "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
         themeYellow:
@@ -45,7 +45,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
