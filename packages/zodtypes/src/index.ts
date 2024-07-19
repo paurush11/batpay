@@ -23,17 +23,22 @@ const RAMPTransactionFormSchema = z.object({
     }).int().min(1, { message: "Amount must be at least 1" }).max(1000000, { message: "Amount must be at most 1,000,000" }),
 })
 const P2PTransferFormSchema = z.object({
-    email: z.string().email("Invalid email address").optional(),
+    email: z.string().email("Invalid email address").or(z.literal('')),
     phone: z.string().min(12, "Phone number is required")
-        .regex(/^\d{3}-\d{3}-\d{4}$/, "Phone number must be in the format xxx-xxx-xxxx").optional(),
+        .regex(/^\d{3}-\d{3}-\d{4}$/, "Phone number must be in the format xxx-xxx-xxxx").or(z.literal('')),
     amount: z.number({
         required_error: "Please enter an amount"
     }).int().min(1, { message: "Amount must be at least 1" })
         .max(1000000, { message: "Amount must be at most 1,000,000" }),
-}).refine(data => data.email || data.phone, {
-    message: "Either email or phone must be provided",
+}).superRefine((data, ctx) => {
+    if (!data.phone && !data.email) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Either email or phone number is required",
+            path: ["email"],
+        });
+    }
 });
-
 export type TProvider = "HDFC" | "CHASE" | "BANK_OF_AMERICA" | "ICICI" | "GOLDMAN_SACHS"
 export const TProviders: TProvider[] = ["HDFC", "CHASE", "BANK_OF_AMERICA", "ICICI", "GOLDMAN_SACHS"]
 

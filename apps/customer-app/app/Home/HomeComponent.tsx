@@ -28,7 +28,7 @@ const HomeComponent = ({
         try {
             const balance = await computeBalanceForUser(userId);
             if (balance) {
-                setMyBalance(balance.amount)
+                setMyBalance(balance.unLockedBalance)
             }
         } catch (e) {
             setMyBalance(0);

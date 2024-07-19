@@ -13,15 +13,26 @@ const computeBalanceForUser = async (userId: string) => {
         if (!userExists) {
             throw new Error("User does not exist");
         }
-        const balance = await db.balance.findFirst({
+        const unLockedBalance = await db.balance.findFirst({
             where: {
                 userId: userId,
+                locked: false,
             }
         })
-        if (!balance) {
+        if (!unLockedBalance) {
             throw new Error("Balance not found");
         }
-        return balance;
+        const lockedBalance = await db.balance.findFirst({
+            where: {
+                userId: userId,
+                locked: true,
+            }
+        })
+
+        return {
+            unLockedBalance: unLockedBalance.amount,
+            lockedBalance: lockedBalance?.amount || 0,
+        }
 
     } catch (e: any) {
         throw new Error(e.message)
