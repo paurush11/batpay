@@ -38,13 +38,13 @@ export const Navbar: React.FC = () => {
                 <div className="flex ml-auto gap-4 items-center ">
                     {username && (
                         isSmallScreen ? (<>
-                            <Button variant={"secondary"} onClick={() => router.push("/home")}> <FaHome className='h-4 w-4' /></Button>
-                            <Button variant={"secondary"} onClick={() => router.push("/transactions")}> <FaExchangeAlt className='h-4 w-4' /></Button>
-                            <Button variant={"secondary"} onClick={() => router.push("/transfer")}> <FaMoneyCheckAlt className='h-4 w-4' /></Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Home")}> <FaHome className='h-4 w-4' /></Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Transactions")}> <FaExchangeAlt className='h-4 w-4' /></Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Transfer")}> <FaMoneyCheckAlt className='h-4 w-4' /></Button>
                         </>) : (<>
-                            <Button variant={"secondary"} onClick={() => router.push("/home")}>Home</Button>
-                            <Button variant={"secondary"} onClick={() => router.push("/transactions")}>Transactions</Button>
-                            <Button variant={"secondary"} onClick={() => router.push("/transfer")}>Transfer</Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Home")}>Home</Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Transactions")}>Transactions</Button>
+                            <Button variant={"secondary"} onClick={() => router.push("/Transfer")}>Transfer</Button>
                         </>))
                     }
 

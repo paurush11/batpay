@@ -57,7 +57,7 @@ const SendMoneyForm = () => {
                             <Input
                                 {...field}
                                 type={"email"}
-                                placeholder="email"
+                                placeholder="Email"
                                 disabled={isLoading}
                                 autoComplete="current email"
                             />

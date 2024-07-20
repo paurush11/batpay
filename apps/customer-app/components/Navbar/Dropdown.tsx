@@ -27,8 +27,8 @@ const DropDownMenuComponent = ({ message }: {
                 <DropdownMenuLabel className={cn('p-2 py-3 text-xl', grafata.className)}>{message}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='p-2 py-3'>Profile</DropdownMenuItem>
-                <DropdownMenuItem className='p-2 py-3'>Billing</DropdownMenuItem>
-                <DropdownMenuItem className='p-2 py-3'>Team</DropdownMenuItem>
+                <DropdownMenuItem className='p-2 py-3'>Transactions</DropdownMenuItem>
+                <DropdownMenuItem className='p-2 py-3'>Balance</DropdownMenuItem>
                 <DropdownMenuItem className='p-2 py-3'>Subscription</DropdownMenuItem>
                 <DropdownMenuItem className='flex px-3 py-0'><Button variant={"ghost"} size={"icon"} onClick={() => {
                     setTimeout(() => {

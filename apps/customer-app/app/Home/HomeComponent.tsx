@@ -45,6 +45,7 @@ const HomeComponent = ({
         setLoading(true);
         try {
             const addBalanceResponse = await addMyBalance(myCustomTopUp);
+            console.log(addBalanceResponse)
             if (addBalanceResponse && addBalanceResponse.data) {
                 toast({
                     title: "Success",

@@ -49,12 +49,13 @@ const addBalance = async (amount: number, userId: string) => {
         if (!userExists) {
             throw new Error("User does not exist");
         }
-        const balance = await db.balance.findFirst({
+        const unlockedBalance = await db.balance.findFirst({
             where: {
                 userId: userId,
+                locked: false,
             }
         })
-        if (!balance) {
+        if (!unlockedBalance) {
             const newBalance = await db.balance.create({
                 data: {
                     amount,
@@ -69,19 +70,25 @@ const addBalance = async (amount: number, userId: string) => {
                 data: newBalance.amount
             }
         }
-        await db.balance.updateMany({
+        const updatedUnlockedBalance = await db.balance.update({
             where: {
+                id: unlockedBalance.id,
                 userId: userId,
+                locked: false,
+                version: unlockedBalance.version,
             },
             data: {
                 amount: {
                     increment: amount,
+                },
+                version: {
+                    increment: 1,
                 }
             }
         })
         return {
             message: "Balance updated successfully",
-            data: balance.amount + amount
+            data: updatedUnlockedBalance.amount
         }
     } catch (e: any) {
         return {
