@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npm install -g dotenv-cli",
-    "postinstall": " dotenv -e .env.production -- npx prisma generate",
+    "postinstall": "prisma generate",
     "migrate:dev": "dotenv -e .env -- npx prisma migrate dev",
     "migrate:prod": "dotenv -e .env.production -- npx prisma migrate deploy",
     "generate:dev": "dotenv -e .env -- npx prisma generate",
