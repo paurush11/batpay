@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from 'react'
-import { SignInFormView } from '../../components/Auth/SignInFormView'
+import { SignInFormView } from '../../components/auth/SignInFormView'
 import Link from 'next/link'
 
 

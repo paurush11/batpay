@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authConfig } from '../../lib/authConfig';
 import { redirect } from "next/navigation";
 
-const page: React.FC = async () => {
+export default async function Home() {
     const session = await getServerSession(authConfig);
     if (!session?.user) {
         redirect("/");
@@ -18,4 +18,3 @@ const page: React.FC = async () => {
     );
 }
 
-export default page

@@ -5,7 +5,7 @@ import { P2PTransferFormSchema } from "@repo/zodTypes";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { handleChange, onError } from '../../../components/Auth/Constants';
+import { handleChange, onError } from '../../../components/auth/Constants';
 import { createNewP2PTransaction } from '../../actions/p2pTransaction';
 const SendMoneyForm = () => {
     const [phoneNumber, setPhoneNumber] = useState('');

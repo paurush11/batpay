@@ -4,7 +4,7 @@ import { authConfig } from '../../lib/authConfig';
 import { redirect } from 'next/navigation';
 import SignInComponent from './SignInComponent';
 
-const page: React.FC = async () => {
+export default async function SignIn() {
     const session = await getServerSession(authConfig);
     if (session?.user) {
         redirect("/");
@@ -12,4 +12,3 @@ const page: React.FC = async () => {
     return <SignInComponent />
 }
 
-export default page;

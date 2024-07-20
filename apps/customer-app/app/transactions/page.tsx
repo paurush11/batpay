@@ -3,7 +3,7 @@ import { TransactionComponent } from './TransactionComponent'
 import { fetchTransactions } from '../actions/fetchTransactions';
 import NullTransactionsComponent from './NullTransactionsComponent';
 
-const page = async () => {
+export default async function Transactions() {
     let errors = "";
     const response = await fetchTransactions();
     if (response.error) errors = response.error;
@@ -20,4 +20,4 @@ const page = async () => {
 
 }
 
-export default page
+
