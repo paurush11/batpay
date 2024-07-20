@@ -24,6 +24,7 @@ const requestToken = async (requestTokenProps: IRequestToken): Promise<IResponse
         ? process.env.TOKEN_REQUEST_URL
         : 'http://localhost:3000';
     let url = `${baseUrl}/api`
+    console.log(url)
     try {
         const response = await axios.get(url, {
             params: {
