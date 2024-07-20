@@ -24,7 +24,6 @@ const requestToken = async (requestTokenProps: IRequestToken): Promise<IResponse
         ? process.env.TOKEN_REQUEST_URL
         : 'http://localhost:3000';
     let url = `${baseUrl}/api`
-    console.log(url)
     try {
         const response = await axios.get(url, {
             params: {
@@ -35,7 +34,7 @@ const requestToken = async (requestTokenProps: IRequestToken): Promise<IResponse
         })
         token += response.data.token;
     } catch (E: any) {
-        throw new Error(E.message)
+        throw new Error(E.message + "url " + url)
     }
     let redirect_url = `${baseUrl}/?token=${token}&amount=${requestTokenProps.amount}`;
     return {
