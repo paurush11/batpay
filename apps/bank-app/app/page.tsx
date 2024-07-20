@@ -16,7 +16,7 @@ export default function Home({ searchParams }: HomeProps) {
 
   const amountInNumber = Number(amount);
   if (isNaN(amountInNumber)) {
-    errorMessage = "Invalid amount, the amount should be a given number";
+    errorMessage = "Invalid amount, the amount should be a given number, check";
     return <>
       <HomeComponentNoPayment message={errorMessage} />;
       <SpeedInsights />
