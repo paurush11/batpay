@@ -14,6 +14,7 @@
     "@repo/zodTypes": "*",
     "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.7.2",
+    "bank": "file:",
     "bcrypt": "^5.1.1",
     "lucide-react": "^0.408.0",
     "next": "15.0.0-rc.0",
