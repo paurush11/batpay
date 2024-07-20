@@ -55,6 +55,7 @@ export const SelectAmount: React.FC<SelectAmountProps> = ({ setProvider }) => {
         const response = await createOnRampTransaction(dataToSend.amount, dataToSend.provider);
 
         if (response.error) {
+            console.log(response.error);
             toast({
                 title: "Error",
                 variant: "destructive",
