@@ -1,6 +1,6 @@
 import HomeComponent from "../components/Home/HomeComponent";
 import HomeComponentNoPayment from "../components/Home/HomeComponentNoPayment";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 interface HomeProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
@@ -17,9 +17,15 @@ export default function Home({ searchParams }: HomeProps) {
   const amountInNumber = Number(amount);
   if (isNaN(amountInNumber)) {
     errorMessage = "Invalid amount, the amount should be a given number";
-    return <HomeComponentNoPayment message={errorMessage} />;
+    return <>
+      <HomeComponentNoPayment message={errorMessage} />;
+      <SpeedInsights />
+    </>
   }
 
-  return <HomeComponent amount={amountInNumber} token={token} />;
+  return <>
+    <HomeComponent amount={amountInNumber} token={token} />;
+    <SpeedInsights />
+  </>
 
 }
