@@ -29,9 +29,8 @@ const processToken = async (data: IRequestToken): Promise<IResponseToken> => {
             }
         })
         return { token };
-    } catch (E) {
-        console.log(E)
-        throw new Error("Something went wrong")
+    } catch (E: any) {
+        throw new Error(`Something went wrong + ${E.message}`)
     }
 };
 
