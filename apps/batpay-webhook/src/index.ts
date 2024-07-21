@@ -98,7 +98,6 @@ async function handleP2PTransaction(transactionId: string, client: Client) {
 		return new Response(JSON.stringify({ message: 'Transaction processed', result: p2pTransactionResult.rows[0] }), { status: 200 });
 	} catch (error: any) {
 		await client.query('ROLLBACK');
-		await client.end();
 		return new Response(JSON.stringify({ message: 'Transaction failed', error: error.message }), { status: 500 });
 	} finally {
 		await client.end();

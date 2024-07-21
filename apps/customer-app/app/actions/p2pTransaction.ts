@@ -14,15 +14,16 @@ const transfer = async ({ amount, email, phone }: Transaction) => {
 
 }
 const sendP2PWebhook = async (transactionId: string) => {
-
     try {
+        if (!transactionId) throw new Error("Invalid transaction id");
         const response = await axios.post(`${url}/p2pTransactionWebhook`, {
             transactionId: transactionId,
         })
         const data = response.data
         console.log("Webhook response:", data);
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to send webhook:", error);
+        throw new Error(`Failed to send webhook ${error}`);
     }
 };
 const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) => {
@@ -55,6 +56,31 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
                 throw new Error("Insufficient balance");
             }
 
+            const unlockedBalance = await tx.balance.update({
+                data: {
+                    amount: { decrement: amount }
+                },
+                where: { id: initialBalance.id }
+            });
+
+            if (!unlockedBalance) {
+                throw new Error("Sender balance update failed");
+            }
+            const userBalance = await tx.balance.create({
+                data: {
+                    amount,
+                    userId: user.id,
+                    locked: true,
+                    version: 0,
+                    decimal: 2,
+                    status: "LOCKED_FOR_TRANSACTION"
+                }
+            });
+            if (!userBalance) {
+                throw new Error("User balance update failed");
+            }
+
+
             const transaction = await tx.p2PTransaction.create({
                 data: {
                     amount,
@@ -70,31 +96,10 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
                 throw new Error("Transaction creation failed");
             }
 
-            const userBalance = await tx.balance.create({
-                data: {
-                    amount,
-                    userId: user.id,
-                    locked: true,
-                    version: 0,
-                    decimal: 2,
-                    status: "LOCKED_FOR_TRANSACTION"
-                }
-            });
 
-            if (!userBalance) {
-                throw new Error("User balance update failed");
-            }
 
-            const unlockedBalance = await tx.balance.update({
-                data: {
-                    amount: { decrement: amount }
-                },
-                where: { id: initialBalance.id }
-            });
 
-            if (!unlockedBalance) {
-                throw new Error("Sender balance update failed");
-            }
+
             await sendP2PWebhook(transaction.id);
             return { message: "Transaction successful", error: null };
         });
