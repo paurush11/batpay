@@ -19,11 +19,12 @@ const sendP2PWebhook = async (transactionId: string) => {
         const response = await axios.post(`${url}/p2pTransactionWebhook`, {
             transactionId: transactionId,
         })
+
         const data = response.data
         console.log("Webhook response:", data);
     } catch (error: any) {
-        console.error("Failed to send webhook:", error);
-        throw new Error(`Failed to send webhook ${error.message}`);
+        const value = JSON.stringify(error.response.data)
+        throw new Error(`Failed to send webhook due to  ${error.message} ${value} ${transactionId}`);
     }
 };
 const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) => {
@@ -47,6 +48,7 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
     }
 
     try {
+        let transactionId = "";
         const result = await db.$transaction(async (tx: any) => {
             const initialBalance = await tx.balance.findFirst({
                 where: { userId: fromId, locked: false }
@@ -96,13 +98,12 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
                 throw new Error("Transaction creation failed");
             }
 
+            transactionId = transaction.id;
 
-
-
-
-            await sendP2PWebhook(transaction.id);
             return { message: "Transaction successful", error: null };
         });
+
+        await sendP2PWebhook(transactionId);
 
         return result;
     } catch (E: any) {
