@@ -34,7 +34,6 @@ async function handleOnRampTransaction(token: string, client: Client) {
 		);
 		if (onRampTransactionResult.rowCount === 0) {
 			await client.query('ROLLBACK');
-			await client.end();
 			return new Response(JSON.stringify({ message: 'Token not found' }), { status: 404 });
 		}
 		const userId = onRampTransactionResult.rows[0].userId;
@@ -44,20 +43,17 @@ async function handleOnRampTransaction(token: string, client: Client) {
 		);
 		if (lockedBalanceResult.rowCount === 0) {
 			await client.query('ROLLBACK');
-			await client.end();
 			return new Response(JSON.stringify({ message: 'Balance not found or conditions not met' }), { status: 404 });
 		}
 		await client.query(
-			'UPDATE "Balance" SET "status" = $1 AND "version" = "version" + 1 WHERE "userId" = $2 AND "locked" = $3 AND "version" = $4 AND "status" = $5',
+			'UPDATE "Balance" SET "status" = $1 , "version" = "version" + 1 WHERE "userId" = $2 AND "locked" = $3 AND "version" = $4 AND "status" = $5',
 			['COMPLETED_FOR_TRANSACTION', userId, true, 1, 'LOCKED_FOR_TRANSACTION']
 		);
 		await client.query('COMMIT');
-		await client.end();
 		return new Response(JSON.stringify({ message: 'Webhook received', result: onRampTransactionResult.rows[0] }), { status: 200 });
 
 	} catch (error: any) {
 		await client.query('ROLLBACK');
-		await client.end();
 		return new Response(JSON.stringify({ message: 'Transaction failed', error: error.message }), { status: 500 });
 	} finally {
 		await client.end();
@@ -97,7 +93,6 @@ async function handleP2PTransaction(transactionId: string, client: Client) {
 			'UPDATE "Balance" SET "status" = $1, "version" = "version" + 1 WHERE "userId" = $2 AND "version" = $3 AND "status" = $4',
 			['COMPLETED_FOR_TRANSACTION', toUserId, 0, 'LOCKED_FOR_TRANSACTION']
 		);
-
 		// Commit transaction
 		await client.query('COMMIT');
 		return new Response(JSON.stringify({ message: 'Transaction processed', result: p2pTransactionResult.rows[0] }), { status: 200 });
@@ -124,13 +119,14 @@ export default {
 			const pathname = url.pathname;
 			if (pathname === '/webhookRAMP') {
 				const { token } = body;
-				return await handleOnRampTransaction(token, client);
+				return handleOnRampTransaction(token, client);
 
 			} else if (pathname === "/p2pTransactionWebhook") {
 				const { transactionId } = body;
-				return await handleP2PTransaction(transactionId, client);
+				return handleP2PTransaction(transactionId, client);
 			}
 		}
+		await client.end();
 
 		return new Response(JSON.stringify({
 			message: 'Invalid request'
