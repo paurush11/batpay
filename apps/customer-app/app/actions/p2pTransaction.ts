@@ -23,7 +23,7 @@ const sendP2PWebhook = async (transactionId: string) => {
         console.log("Webhook response:", data);
     } catch (error: any) {
         console.error("Failed to send webhook:", error);
-        throw new Error(`Failed to send webhook ${error}`);
+        throw new Error(`Failed to send webhook ${error.message}`);
     }
 };
 const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) => {
