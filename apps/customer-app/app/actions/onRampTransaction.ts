@@ -34,7 +34,7 @@ const requestToken = async (requestTokenProps: IRequestToken): Promise<IResponse
         })
         token += response.data.token;
     } catch (E: any) {
-        throw new Error(E.message + "url " + url)
+        throw new Error(E.message)
     }
     let redirect_url = `${baseUrl}/?token=${token}&amount=${requestTokenProps.amount}`;
     return {
