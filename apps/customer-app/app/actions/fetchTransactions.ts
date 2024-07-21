@@ -13,6 +13,9 @@ const fetchTransactions = async () => {
         const onRampTransactions = await db.onRampTransaction.findMany({
             where: {
                 userId: userId,
+            },
+            include: {
+                user: true
             }
         })
         const fromP2PTransactions = await db.p2PTransaction.findMany({

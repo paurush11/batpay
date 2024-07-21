@@ -27,6 +27,7 @@ const HomeComponent = ({
     const customerMyBalance = async () => {
         try {
             const balance = await computeBalanceForUser(userId);
+            console.log(balance)
             if (balance) {
                 setMyBalance(balance.unLockedBalance)
             }
@@ -44,8 +45,9 @@ const HomeComponent = ({
     const addFundsToMyAccount = async () => {
         setLoading(true);
         try {
+           
             const addBalanceResponse = await addMyBalance(myCustomTopUp);
-            console.log(addBalanceResponse)
+
             if (addBalanceResponse && addBalanceResponse.data) {
                 toast({
                     title: "Success",

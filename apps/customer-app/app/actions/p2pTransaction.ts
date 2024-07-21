@@ -50,7 +50,7 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
                 where: { userId: fromId, locked: false }
             });
 
-            if (!initialBalance) {
+            if (!initialBalance || initialBalance.amount < amount) {
                 throw new Error("Insufficient balance");
             }
 
