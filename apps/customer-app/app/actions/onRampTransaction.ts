@@ -57,16 +57,47 @@ const createOnRampTransaction = async (amount: number, provider: TProvider) => {
         }
         const { url, token } = await requestToken({ amount, provider, userId });
 
-        await db.onRampTransaction.create({
-            data: {
-                amount,
-                provider,
-                userId,
-                startTime: new Date(),
-                decimal: 2,
-                token,
-                status: "PROCESSING"
+        await db.$transaction(async (tx) => {
+
+            await tx.balance.updateMany({
+                where: {
+                    userId,
+                    locked: false,
+                },
+                data: {
+                    amount: {
+                        decrement: amount / 100
+                    }
+                }
+            })
+
+            const newLockedBalance = await tx.balance.create({
+                data: {
+                    userId,
+                    amount: amount / 100,
+                    locked: true,
+                    decimal: 2,
+                    version: 1,
+                    status: "LOCKED_FOR_TRANSACTION"
+                }
+            })
+
+            if (!newLockedBalance) {
+                throw new Error("Failed to create locked balance");
             }
+
+            await tx.onRampTransaction.create({
+                data: {
+                    amount,
+                    provider,
+                    userId,
+                    startTime: new Date(),
+                    decimal: 2,
+                    token,
+                    status: "PROCESSING"
+                }
+            })
+
         })
         return {
             message: "OnRamp Transaction created successfully",

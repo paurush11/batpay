@@ -2,8 +2,9 @@
 import db from "@repo/db"
 import { getServerSession } from "next-auth";
 import { authConfig } from "../../lib/authConfig";
+import axios from "axios";
 
-// const url = process.env.NODE_ENV === 'production' ? process.env.WEBHOOKURL : "http://localhost:3003";
+const url = process.env.NODE_ENV === 'production' ? process.env.WEBHOOKURL : "http://localhost:3003";
 interface Transaction {
     amount: number;
     email?: string;
@@ -12,6 +13,17 @@ interface Transaction {
 const transfer = async ({ amount, email, phone }: Transaction) => {
 
 }
+const sendP2PWebhook = async (transactionId: string) => {
+    try {
+        const response = await axios.post(`${url}/p2pTransactionWebhook`, {
+            transactionId: transactionId,
+        })
+        const data = response.data
+        console.log("Webhook response:", data);
+    } catch (error) {
+        console.error("Failed to send webhook:", error);
+    }
+};
 const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) => {
     const session = await getServerSession(authConfig) as any;
 
@@ -63,7 +75,8 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
                     userId: user.id,
                     locked: true,
                     version: 0,
-                    decimal: 2
+                    decimal: 2,
+                    status: "LOCKED_FOR_TRANSACTION"
                 }
             });
 
@@ -81,7 +94,7 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
             if (!unlockedBalance) {
                 throw new Error("Sender balance update failed");
             }
-
+            await sendP2PWebhook(transaction.id);
             return { message: "Transaction successful", error: null };
         });
 

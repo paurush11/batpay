@@ -35,13 +35,14 @@ model Merchant {
 }
 
 model Balance {
-  id      String  @id @default(cuid())
+  id      String        @id @default(cuid())
   amount  Int
   decimal Int
-  locked  Boolean @default(false)
+  locked  Boolean       @default(false)
   userId  String
-  user    User    @relation(fields: [userId], references: [id])
+  user    User          @relation(fields: [userId], references: [id])
   version Int
+  status  BalanceStatus @default(NEW)
 }
 
 model OnRampTransaction {
@@ -109,4 +110,10 @@ enum Providers {
 enum AuthType {
   Google
   Github
+}
+
+enum BalanceStatus {
+  NEW
+  LOCKED_FOR_TRANSACTION
+  COMPLETED_FOR_TRANSACTION
 }
