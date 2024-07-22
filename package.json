@@ -5,7 +5,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "generate:prod": "cd packages/db &&  dotenv -e .env.production -- npx prisma generate && cd ../.."
   },
   "devDependencies": {
     "prettier": "^3.2.5",
