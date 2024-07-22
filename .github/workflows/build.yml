@@ -18,9 +18,9 @@ jobs:
       
       - name: Install Dependencies
         run: npm install
-        
+
       - name: Generate Client
-        run: npm generate:prod  
+        run: npm run generate:prod  
         
       - name: Run Build
         run: npm run build
