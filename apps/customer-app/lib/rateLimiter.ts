@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { kv } from "@vercel/kv";
 
-const NO_OF_ALLOWED_REQUESTS = 5;
+const NO_OF_ALLOWED_REQUESTS = 50;
 const TIME_FRAME = 60 * 1000; // One Min;
 
 const fetchIpAddress = (req: NextRequest) => {
