@@ -24,9 +24,7 @@ const SignInFormController = ({ isLoading, setIsLoading, signingIn }: {
 
     const response = await signIn("credentials", { ...values, redirect: false });
     if (response?.error) {
-
       const errorMessage = response.error as errorTypes;
-
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",

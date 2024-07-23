@@ -29,7 +29,6 @@ export const authConfig: AuthOptions = {
                         number: credentials?.phone
                     }
                 })
-
                 if (existingUser) {
                     const isPasswordCorrect = bcrypt.compareSync(credentials?.password, existingUser.password)
                     if (isPasswordCorrect) {
@@ -76,8 +75,6 @@ export const authConfig: AuthOptions = {
                     return false
                 }
             }
-
-
             return true;
         }
     },
