@@ -51,8 +51,7 @@ const checkIfReqShouldBeAllowedOnIP = async (req: NextRequest) => {
 
         return false;
     } catch (error) {
-        console.error('Error accessing KV store:', error);
-        return false;
+        throw new Error(`Error in rate limiter ${error}`);
     }
 }
 
