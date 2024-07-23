@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { handleChange, onError } from './Constants';
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { customErrorMessage } from "./CustomConstants"
-import { signUp } from '../../app/actions/authActions';
+import { signUp } from '../../actions/authActions';
 import { signIn } from 'next-auth/react';
 
 const SignUpFormController = ({ isLoading, signingIn, setIsLoading }: {

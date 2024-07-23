@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { handleChange, onError } from '../../../components/auth/Constants';
-import { createNewP2PTransaction } from '../../actions/p2pTransaction';
+import { createNewP2PTransaction } from '../../../actions/p2pTransaction';
 const SendMoneyForm = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -128,6 +128,7 @@ const SendMoneyForm = () => {
             // Handle the form submission logic
 
         } catch (e) {
+            console.log(e);
             toast({
                 title: "Error",
                 variant: "destructive",

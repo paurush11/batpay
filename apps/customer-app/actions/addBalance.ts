@@ -1,7 +1,7 @@
 "use server"
 import db from "@repo/db"
 import { getServerSession } from "next-auth";
-import { authConfig } from "../../lib/authConfig";
+import { authConfig } from "../lib/authConfig";
 
 const computeBalanceForUser = async (userId: string) => {
     try {

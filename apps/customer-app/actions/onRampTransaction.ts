@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import { authConfig } from "../../lib/authConfig";
+import { authConfig } from "../lib/authConfig";
 import db from "@repo/db";
 import axios from "axios";
 import { TProvider } from "@repo/zodTypes";

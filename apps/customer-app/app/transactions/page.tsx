@@ -1,6 +1,6 @@
 import React from 'react'
 import { TransactionComponent } from './TransactionComponent'
-import { fetchTransactions } from '../actions/fetchTransactions';
+import { fetchTransactions } from '../../actions/fetchTransactions';
 import NullTransactionsComponent from './NullTransactionsComponent';
 interface IUser {
     email: string,

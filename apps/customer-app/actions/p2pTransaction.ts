@@ -1,7 +1,7 @@
 "use server"
 import db from "@repo/db"
 import { getServerSession } from "next-auth";
-import { authConfig } from "../../lib/authConfig";
+import { authConfig } from "../lib/authConfig";
 import axios from "axios";
 
 const url = process.env.NODE_ENV === 'production' ? process.env.WEBHOOKURL : "http://localhost:3003";
@@ -107,6 +107,7 @@ const createNewP2PTransaction = async ({ amount, email, phone }: Transaction) =>
 
         return result;
     } catch (E: any) {
+        console.log(E);
         return { error: `${E.message}` };
     }
 }

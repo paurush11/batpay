@@ -9,32 +9,27 @@ import {
     toast,
     Input,
 } from '@repo/ui'
-import React, { useEffect, useState } from 'react'
-import { addMyBalance, computeBalanceForUser } from '../actions/addBalance'
+import React, { useState } from 'react'
+import { addMyBalance } from '../../actions/addBalance'
 
 
 const HomeComponent = ({
-    userId
+    userId,
+    myFetchedBalance
 }: {
     userId: string
+    myFetchedBalance: {
+        unLockedBalance: number,
+        lockedBalance: number
+    }
 }) => {
     const text = 'With BatPay, Your Payments Just Got Better – Faster, Safer, and More Convenient Than Ever!'
-    const [myBalance, setMyBalance] = React.useState(0)
+    const [myBalance, setMyBalance] = React.useState(myFetchedBalance.unLockedBalance)
     const [currentButton, setCurrentButton] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [myCustomTopUp, setMyCustomTopUp] = useState<number>(0);
     const [inputValue, setInputValue] = useState('');
-    const customerMyBalance = async () => {
-        try {
-            const balance = await computeBalanceForUser(userId);
-            console.log(balance)
-            if (balance) {
-                setMyBalance(balance.unLockedBalance)
-            }
-        } catch (e) {
-            setMyBalance(0);
-        }
-    }
+
     const reset = () => {
         setLoading(false);
         setCurrentButton(0);
@@ -45,9 +40,7 @@ const HomeComponent = ({
     const addFundsToMyAccount = async () => {
         setLoading(true);
         try {
-           
             const addBalanceResponse = await addMyBalance(myCustomTopUp);
-
             if (addBalanceResponse && addBalanceResponse.data) {
                 toast({
                     title: "Success",
@@ -55,7 +48,6 @@ const HomeComponent = ({
                 })
                 setMyBalance(addBalanceResponse.data);
                 reset()
-
             } else if (addBalanceResponse.error) {
                 toast({
                     title: "Error",
@@ -73,9 +65,7 @@ const HomeComponent = ({
             reset()
         }
     }
-    useEffect(() => {
-        customerMyBalance();
-    }, [userId, myBalance])
+
     return (
         <div className="flex flex-col items-center justify-start">
             <div className="flex ">
