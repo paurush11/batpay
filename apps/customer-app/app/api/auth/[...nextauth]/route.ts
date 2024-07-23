@@ -1,15 +1,15 @@
 import NextAuth from "next-auth"
 import { authConfig } from "../../../../lib/authConfig"
-import { NextApiRequest, NextApiResponse } from "next";
 import { checkIfReqShouldBeAllowedOnIP } from "../../../../lib/rateLimiter";
+import { NextRequest, NextResponse } from "next/server";
 
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-    const allowed = checkIfReqShouldBeAllowedOnIP(req, res);
+const handler = (req: NextRequest) => {
+    const allowed = checkIfReqShouldBeAllowedOnIP(req);
     if (!allowed) {
-        return res.status(429).json({ message: "Too many requests" });
+        return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
-    return NextAuth(req, res, authConfig);
+    return NextAuth(authConfig);
 }
 
 export {
