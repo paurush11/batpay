@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { kv } from "@vercel/kv";
 
 const NO_OF_ALLOWED_REQUESTS = 5;
 const TIME_FRAME = 60 * 1000; // One Min;
-const rateLimitMap: Record<string, { count: number, time: number }> = {}
+
 const fetchIpAddress = (req: NextRequest) => {
     let ipAdd = req.headers.get("x-real-ip") as string;
     const ip = req.headers.get("x-forwarded-for") as string;
@@ -12,29 +12,37 @@ const fetchIpAddress = (req: NextRequest) => {
     }
     return ipAdd;
 }
-const checkIfReqShouldBeAllowedOnIP = (req: NextRequest) => {
+const checkIfReqShouldBeAllowedOnIP = async (req: NextRequest) => {
     // const ip = fetchIpAddress(req); //  If not on vercel
     const ip = req.ip ?? "Unknown";
     if (ip === "Unknown") return false;
+
     const currentTime = Date.now();
-    if (!rateLimitMap[ip]) {
-        rateLimitMap[ip] = {
-            count: 1,
-            time: currentTime
-        }
+    const value = await kv.get<{ count: number; time: number }>(ip);
+    if (!value) {
+        kv.set(ip, { count: 1, time: currentTime }, {
+            ex: TIME_FRAME / 1000
+        })
         return true;
     }
-    const { count, time } = rateLimitMap[ip];
+    const { count, time } = value;
     if (currentTime - time > TIME_FRAME) {
-        rateLimitMap[ip] = {
+        await kv.set(ip, {
             count: 1,
             time: currentTime
-        }
+        }, {
+            ex: TIME_FRAME / 1000
+        });
         return true;
     }
 
     if (count < NO_OF_ALLOWED_REQUESTS) {
-        rateLimitMap[ip].count++;
+        await kv.set(ip, {
+            count: count + 1,
+            time: time
+        }, {
+            ex: (TIME_FRAME - (currentTime - time)) / 1000
+        });
         return true;
     }
 
@@ -44,4 +52,4 @@ const checkIfReqShouldBeAllowedOnIP = (req: NextRequest) => {
 
 export {
     checkIfReqShouldBeAllowedOnIP
-}
+};

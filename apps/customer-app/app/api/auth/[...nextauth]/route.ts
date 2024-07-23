@@ -4,8 +4,8 @@ import { checkIfReqShouldBeAllowedOnIP } from "../../../../lib/rateLimiter";
 import { NextRequest, NextResponse } from "next/server";
 
 
-const handler = (req: NextRequest) => {
-    const allowed = checkIfReqShouldBeAllowedOnIP(req);
+const handler = async (req: NextRequest) => {
+    const allowed = await checkIfReqShouldBeAllowedOnIP(req);
     if (!allowed) {
         return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
