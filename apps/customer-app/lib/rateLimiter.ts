@@ -13,8 +13,11 @@ const fetchIpAddress = (req: NextRequest) => {
     return ipAdd;
 }
 const checkIfReqShouldBeAllowedOnIP = async (req: NextRequest) => {
-    // const ip = fetchIpAddress(req); //  If not on vercel
-    const ip = req.ip ?? "Unknown";
+    let ip = fetchIpAddress(req); //  If not on vercel
+    // const ip = req.ip ?? "Unknown";
+    if (ip === "Unknown") {
+        ip = req.ip ?? "Unknown"
+    }
     if (ip === "Unknown") return false;
 
     const currentTime = Date.now();
