@@ -9,7 +9,8 @@
     "NEXTAUTH_SECRET",
     "TOKEN_REQUEST_URL",
     "WEBHOOKURL",
-    "NODE_ENV"
+    "NODE_ENV",
+    "DATABASE_URL"
   ],
   "globalDependencies": [
     "**/.env.*local",

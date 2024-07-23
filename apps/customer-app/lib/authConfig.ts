@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { createAccountForGoogleOrGitHub } from "./authUtils";
+import { checkIfReqShouldBeAllowedOnIP, checkIfReqShouldBeAllowedOnPhone } from "./rateLimiter";
 
 
 export const authConfig: AuthOptions = {
@@ -23,26 +24,37 @@ export const authConfig: AuthOptions = {
                 phone: { label: "phone number", type: "text", placeholder: "Enter your phone number", },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials) {
-                const existingUser = await db.user.findFirst({
-                    where: {
-                        number: credentials?.phone
+            async authorize(credentials, req) {
+                try {
+                    let ip: string = req.headers?.["x-real-ip"] as string;
+                    let ip2: string = req.headers?.["x-forwarded-for"] as string;
+                    if (!ip) {
+                        ip = ip2?.split(",")[0] ?? "Unknown";
                     }
-                })
-                if (existingUser) {
-                    const isPasswordCorrect = bcrypt.compareSync(credentials?.password, existingUser.password)
-                    if (isPasswordCorrect) {
-                        return {
-                            id: existingUser.id.toString(),
-                            name: existingUser.name,
-                            email: existingUser.number
-                        } as any;
+                    const isAllowed = ip === "Unknown" ? checkIfReqShouldBeAllowedOnPhone(credentials?.phone ?? "") : checkIfReqShouldBeAllowedOnIP(ip);
+                    if (!isAllowed) throw new Error("Too many requests");
 
+                    const existingUser = await db.user.findFirst({
+                        where: {
+                            number: credentials?.phone
+                        }
+                    })
+
+                    if (existingUser) {
+                        const isPasswordCorrect = bcrypt.compareSync(credentials?.password, existingUser.password)
+                        if (isPasswordCorrect) {
+                            return {
+                                id: existingUser.id.toString(),
+                                name: existingUser.name,
+                                email: existingUser.number
+                            } as any;
+
+                        }
+                        return null;
                     }
-                    return null;
-                }
-                else {
-                    throw new Error("Signin");
+
+                } catch (E) {
+                    throw new Error(`${E}`);
                 }
             }
         })

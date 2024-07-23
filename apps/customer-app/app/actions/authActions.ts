@@ -41,6 +41,7 @@ const mapPrismaErrorToMessage = (error: PrismaClientKnownRequestError) => {
     }
 };
 const signUp = async (signupProp: ISignupProps) => {
+
     const hashPassword = bcrypt.hashSync(signupProp.password, 10)
     try {
         const user = await db.user.create({

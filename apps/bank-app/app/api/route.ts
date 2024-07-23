@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const query = searchParams.get('provider')
     const amount = searchParams.get('amount')
     const userId = searchParams.get('userId')
+
     if (!userId) {
         return Response.json({ message: "User ID is required" }, { status: 400 })
     }

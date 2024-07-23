@@ -173,6 +173,7 @@ const SignUpFormController = ({ isLoading, signingIn, setIsLoading }: {
                 password: values.password,
                 email: values.email
             })
+            
             if (res) {
                 toast({
                     title: "Success",
