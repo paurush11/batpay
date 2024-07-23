@@ -14,42 +14,46 @@ const fetchIpAddress = (req: NextRequest) => {
 }
 const checkIfReqShouldBeAllowedOnIP = async (req: NextRequest) => {
     let ip = fetchIpAddress(req); //  If not on vercel
-    // const ip = req.ip ?? "Unknown";
     if (ip === "Unknown") {
         ip = req.ip ?? "Unknown"
     }
     if (ip === "Unknown") return false;
-
     const currentTime = Date.now();
-    const value = await kv.get<{ count: number; time: number }>(ip);
-    if (!value) {
-        kv.set(ip, { count: 1, time: currentTime }, {
-            ex: TIME_FRAME / 1000
-        })
-        return true;
-    }
-    const { count, time } = value;
-    if (currentTime - time > TIME_FRAME) {
-        await kv.set(ip, {
-            count: 1,
-            time: currentTime
-        }, {
-            ex: TIME_FRAME / 1000
-        });
-        return true;
-    }
+    try {
+        const value = await kv.get<{ count: number; time: number }>(ip);
+        if (!value) {
+            await kv.set(
+                ip,
+                { count: 1, time: currentTime },
+                { ex: TIME_FRAME / 1000 } // Set expiration time in seconds
+            );
+            return true;
+        }
 
-    if (count < NO_OF_ALLOWED_REQUESTS) {
-        await kv.set(ip, {
-            count: count + 1,
-            time: time
-        }, {
-            ex: (TIME_FRAME - (currentTime - time)) / 1000
-        });
-        return true;
-    }
+        const { count, time } = value;
+        if (currentTime - time > TIME_FRAME) {
+            await kv.set(
+                ip,
+                { count: 1, time: currentTime },
+                { ex: TIME_FRAME / 1000 } // Reset expiration time
+            );
+            return true;
+        }
 
-    return false;
+        if (count < NO_OF_ALLOWED_REQUESTS) {
+            await kv.set(
+                ip,
+                { count: count + 1, time: time },
+                { ex: (TIME_FRAME - (currentTime - time)) / 1000 } // Adjust the TTL to the remaining time
+            );
+            return true;
+        }
+
+        return false;
+    } catch (error) {
+        console.error('Error accessing KV store:', error);
+        return false;
+    }
 }
 
 
